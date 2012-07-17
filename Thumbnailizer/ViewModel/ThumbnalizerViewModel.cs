@@ -65,6 +65,7 @@ namespace Thumbnailizer.ViewModel
 
         private void Process(string path)
         {
+            //TODO
             if (IsFolder(path))
             {
                 ProcessFolder(path);
