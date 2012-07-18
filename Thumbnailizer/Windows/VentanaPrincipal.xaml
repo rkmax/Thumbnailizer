@@ -1,10 +1,12 @@
 ﻿<Controls:MetroWindow x:Class="Thumbnailizer.Windows.VentanaPrincipal"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="Thumbnailizer" Height="600" Width="600"
-        Icon="/Thumbnailizer;component/Images/Picture.png">
-
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      Title="Thumbnailizer" Height="600" Width="600"
+                      Icon="/Thumbnailizer;component/Images/Picture.png"
+                      DataContext="{Binding Source={StaticResource Locator}, Path=Ventana}">
+    
+    <!--Estilos metro-->
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,28 +15,30 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                
+                <!-- Estilos de la aplicacion-->
                 <ResourceDictionary Source="pack://application:,,,/Thumbnailizer;component/Styles/Main.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Thumbnailizer;component/Styles/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    
+    <!--Contenido de la ventana-->
     <DockPanel LastChildFill="True">
+        
         <!--Thumbnail options / Opciones de configuración-->
         <StackPanel DockPanel.Dock="Right" Width="200">
             <TextBlock></TextBlock>
-        </StackPanel> 
-        
+        </StackPanel>
+
         <!--List Files to proccess / Lista de archivos para procesar-->
         <ListView DockPanel.Dock="Top" Height="350" HorizontalAlignment="Stretch">
         </ListView>
-        
+
         <!--Droppable area / Area para soltar archivos-->
         <Border
             Style="{DynamicResource DropBorder}"
             DockPanel.Dock="Bottom">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="0" BlurRadius="2"/>
-            </Border.Effect>
             <StackPanel>
                 <TextBlock
                     FontSize="72"
