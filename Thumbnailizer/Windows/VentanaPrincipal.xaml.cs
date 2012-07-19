@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
+using Thumbnailizer.ViewModel;
 
 namespace Thumbnailizer.Windows
 {
@@ -11,6 +11,7 @@ namespace Thumbnailizer.Windows
         public VentanaPrincipal()
         {
             InitializeComponent();
+            Closing += (s, e) => ViewModelLocator.Cleanup();
         }
     }
 }

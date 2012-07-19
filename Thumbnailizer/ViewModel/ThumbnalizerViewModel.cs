@@ -6,6 +6,9 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Thumbnailizer.Model;
 using System.Threading;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Linq;
 
 namespace Thumbnailizer.ViewModel
 {
@@ -25,6 +28,7 @@ namespace Thumbnailizer.ViewModel
     {
         //TODO: Verificar que los archivos son imagenes
         private List<string> _imageExtension = new List<string>() { ".jpe", ".jpg", ".png", ".gif" };
+        private HashSet<string> _hash;
         /// <summary>
         /// Initializes a new instance of the ThumbnalizerViewModel class.
         /// </summary>
@@ -32,6 +36,27 @@ namespace Thumbnailizer.ViewModel
         {
 
             ArchivosSoltados = new ObservableCollection<ArchivoSoltadoModel>();
+            _hash = new HashSet<string>();            
+
+            if (IsInDesignMode)
+            {
+                List<string> temList = new List<string> 
+                {
+                    @"F:\fotos visiometros\juno\DSC02532.JPG",
+                    @"F:\fotos visiometros\juno\DSC02533.JPG",
+                    @"F:\fotos visiometros\juno\DSC02534.JPG",
+                };
+
+                temList.ForEach(path =>
+                {
+                    var element = new ArchivoSoltadoModel
+                    {
+                        Ruta = path,
+                        NombreArchivo = Path.GetFileName(path),
+                        NombreDirectorio = Path.GetDirectoryName(path)
+                    };
+                });
+            }
 
             InicializarCommands();
 
@@ -64,11 +89,10 @@ namespace Thumbnailizer.ViewModel
         }
 
         private void Process(string path)
-        {
-            //TODO
+        {            
             if (IsFolder(path))
             {
-                ProcessFolder(path);
+                ProcessFolder(path);                
             }
             else
             {
@@ -83,17 +107,35 @@ namespace Thumbnailizer.ViewModel
 
         private void ProcessFile(string path)
         {
-            ArchivosSoltados.Add(new ArchivoSoltadoModel
+            if (_hash.Contains(path)) return;
+
+            var element = new ArchivoSoltadoModel
             {
-                Ruta = path
-            });
+                Ruta = path,
+                NombreArchivo = Path.GetFileName(path),
+                NombreDirectorio = Path.GetDirectoryName(path),
+                EstaProcesado = false
+            };
+            _hash.Add(path);
+            ArchivosSoltados.Add(element);
         }
 
         private void GenerateThumbnails()
         {
             foreach (var item in ArchivosSoltados)
             {
-                ThreadPool.QueueUserWorkItem(GenerateThumbnail, item);   
+                if (!item.EstaProcesado)
+                {                    
+                    // Option 2: Modo nuevo - sin entender                    
+                    var tsk = Task.Factory.StartNew(GenerateThumbnail, item).ContinueWith(t =>
+                    {
+                        if (t.IsCompleted) item.EstaProcesado = true;
+                    }, TaskScheduler.FromCurrentSynchronizationContext());                   
+                    
+                    
+                    // Option 1: viejo modo
+                    //ThreadPool.QueueUserWorkItem(GenerateThumbnail, item);
+                }                
             }
         }
 
@@ -111,9 +153,13 @@ namespace Thumbnailizer.ViewModel
             {
                 name = "thumb_" + name;
             }
+
             ImageProcess.GenerateThumbnail(
                 ImageProcess.LoadImageFromStringPath(item.Ruta),
-                Path.Combine(path, name));
+                Path.Combine(path, name), Ancho, Altura);
+
+            var archivo = ArchivosSoltados.Where(a => a.Ruta == item.Ruta).SingleOrDefault();
+            archivo.EstaProcesado = true;
         }
 
         private bool IsFolder(string path)
