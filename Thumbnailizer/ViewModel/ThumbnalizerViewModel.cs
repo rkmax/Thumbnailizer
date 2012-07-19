@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace Thumbnailizer.ViewModel
 {
@@ -40,14 +41,14 @@ namespace Thumbnailizer.ViewModel
 
             if (IsInDesignMode)
             {
-                List<string> temList = new List<string> 
+                List<string> tempList = new List<string> 
                 {
                     @"F:\fotos visiometros\juno\DSC02532.JPG",
                     @"F:\fotos visiometros\juno\DSC02533.JPG",
                     @"F:\fotos visiometros\juno\DSC02534.JPG",
                 };
 
-                temList.ForEach(path =>
+                tempList.ForEach(path =>
                 {
                     var element = new ArchivoSoltadoModel
                     {
@@ -55,6 +56,11 @@ namespace Thumbnailizer.ViewModel
                         NombreArchivo = Path.GetFileName(path),
                         NombreDirectorio = Path.GetDirectoryName(path)
                     };
+                    if (tempList.IndexOf(path) % 2 == 0)
+                    {
+                        element.EstaProcesado = true;
+                    }
+                    ArchivosSoltados.Add(element);
                 });
             }
 
@@ -65,6 +71,7 @@ namespace Thumbnailizer.ViewModel
         #region ViewModel Commands
 
         public RelayCommand<DragEventArgs> DropAnythingCommand { get; private set; }
+        public RelayCommand SelectResultFolderCommand { get; private set; }
         public RelayCommand ThumbnailizerCommand { get; private set; }
 
         #endregion
@@ -122,6 +129,7 @@ namespace Thumbnailizer.ViewModel
 
         private void GenerateThumbnails()
         {
+            if (Altura == 0 && Ancho == 0) return;
             foreach (var item in ArchivosSoltados)
             {
                 if (!item.EstaProcesado)
@@ -130,11 +138,7 @@ namespace Thumbnailizer.ViewModel
                     var tsk = Task.Factory.StartNew(GenerateThumbnail, item).ContinueWith(t =>
                     {
                         if (t.IsCompleted) item.EstaProcesado = true;
-                    }, TaskScheduler.FromCurrentSynchronizationContext());                   
-                    
-                    
-                    // Option 1: viejo modo
-                    //ThreadPool.QueueUserWorkItem(GenerateThumbnail, item);
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
                 }                
             }
         }

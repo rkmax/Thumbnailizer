@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:Thumbnailizer.ViewModel"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converter="clr-namespace:Thumbnailizer.Converters"
              StartupUri="Windows/VentanaPrincipal.xaml"
              mc:Ignorable="d">
     
@@ -11,6 +12,7 @@
         <!--Global View Model Locator-->
         <vm:ViewModelLocator x:Key="Locator"
                              d:IsDataSource="True" />
+        <converter:BooleanToVisivility x:Key="Converter" />
     </Application.Resources>
     
 </Application>

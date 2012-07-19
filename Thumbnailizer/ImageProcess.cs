@@ -35,6 +35,8 @@ namespace Thumbnailizer
                 thumbHeight = (int)((double)thumbWidth / (double)imageOriginal.Width * imageOriginal.Height);
             }
 
+            if (thumbHeight == 0 || thumbWidth == 0) return;
+
             using (Image thumbnail = new Bitmap(thumbWidth, thumbHeight))
             {
                 Graphics graphic = Graphics.FromImage(thumbnail);

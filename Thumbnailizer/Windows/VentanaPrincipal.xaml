@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     Title="Thumbnailizer" Height="500" Width="600"
     Icon="/Thumbnailizer;component/Images/Picture.png"
@@ -51,10 +51,9 @@
 
                 <!--TODO: Opciones ocultas-->
                 <!--Opciones de nombre-->
-                <StackPanel Background="#40E8E8E8" Margin="0,0,0,20">
+                <!--<StackPanel Background="#40E8E8E8" Margin="0,0,0,20">
                     <TextBlock Style="{DynamicResource DropOptionTitle}">Opciones de nombre</TextBlock>
-
-                    <!--Prefijo y sufijo-->                    
+                    
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
                         <CheckBox Padding="5,0,0,0" VerticalAlignment="Center" Width="80">
                             Prefijo
@@ -68,22 +67,33 @@
                         </CheckBox>
                         <TextBox Width="80"></TextBox>
                     </StackPanel>
+                </StackPanel>-->
+                <StackPanel Background="#40E8E8E8" Margin="0,0,0,20">
+                    <TextBlock 
+                        Margin="5"
+                        TextWrapping="Wrap">
+                            Thumbnailizer creara un archivo 
+                                <TextBlock FontWeight="Bold">
+                                    thumb_[nombre de archivo]
+                                </TextBlock>
+                            por cada imagen y se guardara en el mismo directorio</TextBlock>
                 </StackPanel>
                 
                 <!--Carpeta de destino-->
+                <!--
                 <StackPanel Background="#40E8E8E8" Margin="0,0,0,20">
                     <TextBlock Style="{DynamicResource DropOptionTitle}">Destino</TextBlock>
                     <Label>Carpeta de destino</Label>
                     <StackPanel Orientation="Horizontal">
                         <TextBox Width="140" IsReadOnly="True" IsEnabled="False"></TextBox>
-                        <Button>
+                        <Button Command="{Binding Path=SelectResultFolderCommand}">
                             <TextBlock
                                 FontSize="14"
-                                Foreground="Black"
+                                Foreground="Black"                                
                                 Style="{DynamicResource IconPictures}"/>
                         </Button>
                     </StackPanel>
-                </StackPanel>
+                </StackPanel>-->
                 
                 
             </StackPanel>
@@ -153,12 +163,12 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock                             
-                            FontSize="16" Foreground="Black" Style="{DynamicResource IconPictures}"/>
-                            <TextBlock 
-                            Height="16"
-                            Text="{Binding Path=NombreArchivo}"/>
-                            <TextBlock Text="{Binding Path=EstaProcesado}" />
+                            <TextBlock FontSize="16" Foreground="Black" Style="{DynamicResource IconPictures}"/>
+                            <TextBlock Height="16" Text="{Binding Path=NombreArchivo}"/>
+                            <TextBlock                                
+                                FontSize="16" Text="W"
+                                Visibility="{Binding Path=EstaProcesado, Converter={StaticResource Converter}}"
+                                Foreground="Green" Style="{DynamicResource Icon_}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
