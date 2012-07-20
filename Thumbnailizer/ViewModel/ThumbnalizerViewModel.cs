@@ -101,6 +101,10 @@ namespace Thumbnailizer.ViewModel
             });
         }
 
+        /// <summary>
+        /// Discrimina archivos y carpetas
+        /// </summary>
+        /// <param name="path">ruta a discriminar</param>
         private void Process(string path)
         {
             if (IsFolder(path))
@@ -113,6 +117,10 @@ namespace Thumbnailizer.ViewModel
             }
         }
 
+        /// <summary>
+        /// Lee todas las entradas de la carpeta y los procesa
+        /// </summary>
+        /// <param name="path">ruta de la carpeta</param>
         private void ProcessFolder(string path)
         {
             var listFiles = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
@@ -128,6 +136,10 @@ namespace Thumbnailizer.ViewModel
             }
         }
 
+        /// <summary>
+        /// Toma la informacion de la ruta y lo prepara para procesar
+        /// </summary>
+        /// <param name="path"></param>
         private void ProcessFile(string path)
         {
             if (_hash.Contains(path)) return;
@@ -146,6 +158,9 @@ namespace Thumbnailizer.ViewModel
             ArchivosSoltados.Add(element);
         }
 
+        /// <summary>
+        /// Procesa todas las imagenes listas para procesar
+        /// </summary>
         private void GenerateThumbnails()
         {
             if (Altura == 0 && Ancho == 0) return;
@@ -162,6 +177,11 @@ namespace Thumbnailizer.ViewModel
             }
         }
 
+        /// <summary>
+        /// Tomar un modelo de archivo y lo procesa
+        /// redimensinandolo segun las opciones disponibles
+        /// </summary>
+        /// <param name="threaContext"></param>
         private void GenerateThumbnail(object threaContext)
         {
             var item = (ArchivoSoltadoModel)threaContext;
@@ -186,6 +206,11 @@ namespace Thumbnailizer.ViewModel
             archivo.EstaProcesado = true;
         }
 
+        /// <summary>
+        /// Determinar si la ruta pasada es una carpeta
+        /// </summary>
+        /// <param name="path">ruta de la carpeta</param>
+        /// <returns>verdadero si es una carpeta</returns>
         private bool IsFolder(string path)
         {
             FileAttributes attrs = File.GetAttributes(path);
