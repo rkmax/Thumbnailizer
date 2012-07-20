@@ -38,6 +38,27 @@ namespace Thumbnailizer.ViewModel
             ArchivosSoltados = new ObservableCollection<ArchivoSoltadoModel>();
             _hash = new HashSet<string>();
 
+            DummyInfo();
+
+            InicializarCommands();
+
+        }
+        #endregion
+
+        #region ViewModel Commands
+
+        public RelayCommand<DragEventArgs> DropAnythingCommand { get; private set; }        
+        public RelayCommand ThumbnailizerCommand { get; private set; }
+        public RelayCommand LimpiarListaCommand { get; private set; }
+
+        #endregion
+
+        #region ViewModel Private Methods
+        /// <summary>
+        /// Llena informacion falsa, util en tiempo de diseño
+        /// </summary>
+        private void DummyInfo()
+        {
             if (IsInDesignMode)
             {
                 List<string> tempList = new List<string> 
@@ -62,21 +83,11 @@ namespace Thumbnailizer.ViewModel
                     ArchivosSoltados.Add(element);
                 });
             }
+        }
 
-            InicializarCommands();
-
-        } 
-        #endregion
-
-        #region ViewModel Commands
-
-        public RelayCommand<DragEventArgs> DropAnythingCommand { get; private set; }
-        public RelayCommand SelectResultFolderCommand { get; private set; }
-        public RelayCommand ThumbnailizerCommand { get; private set; }
-        public RelayCommand LimpiarListaCommand { get; private set; }
-
-        #endregion
-
+        /// <summary>
+        /// Inicializa los comandos para utilizarlos en el XAML
+        /// </summary>
         private void InicializarCommands()
         {
             DropAnythingCommand = new RelayCommand<DragEventArgs>((e) =>
@@ -109,7 +120,7 @@ namespace Thumbnailizer.ViewModel
         {
             if (IsFolder(path))
             {
-                ProcessFolder(path);                
+                ProcessFolder(path);
             }
             else
             {
@@ -129,7 +140,7 @@ namespace Thumbnailizer.ViewModel
                 ProcessFile(item);
             }
 
-            var listDirectories = Directory.EnumerateDirectories(path,"*",SearchOption.AllDirectories);
+            var listDirectories = Directory.EnumerateDirectories(path, "*", SearchOption.AllDirectories);
             foreach (var item in listDirectories)
             {
                 ProcessFolder(item);
@@ -167,13 +178,13 @@ namespace Thumbnailizer.ViewModel
             foreach (var item in ArchivosSoltados)
             {
                 if (!item.EstaProcesado)
-                {                    
+                {
                     // Option 2: Modo nuevo - sin entender                    
                     var tsk = Task.Factory.StartNew(GenerateThumbnail, item).ContinueWith(t =>
                     {
                         if (t.IsCompleted) item.EstaProcesado = true;
                     }, TaskScheduler.FromCurrentSynchronizationContext());
-                }                
+                }
             }
         }
 
@@ -215,7 +226,8 @@ namespace Thumbnailizer.ViewModel
         {
             FileAttributes attrs = File.GetAttributes(path);
             return FileAttributes.Directory == (attrs & FileAttributes.Directory);
-        }
+        } 
+        #endregion
 
         #region ViewModel Properties
 
