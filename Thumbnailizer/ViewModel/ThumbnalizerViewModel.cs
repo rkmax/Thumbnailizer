@@ -175,7 +175,7 @@ namespace Thumbnailizer.ViewModel
             }
             else
             {
-                name = "thumb_" + name;
+                name = _prefix + name;
             }
 
             ImageProcess.GenerateThumbnail(
@@ -349,6 +349,37 @@ namespace Thumbnailizer.ViewModel
 
                 // Update bindings, no broadcast
                 RaisePropertyChanged(AnchoPropertyName);
+            }
+        } 
+        #endregion
+
+        #region ViewModel Prefix
+        /// <summary>
+        /// The <see cref="Prefix" /> property's name.
+        /// </summary>
+        public const string PrefixPropertyName = "Prefix";
+
+        private string _prefix = "thumb_";
+
+        /// <summary>
+        /// Gets the Prefix property.        
+        /// </summary>
+        public string Prefix
+        {
+            get
+            {
+                return _prefix;
+            }
+
+            set
+            {
+                if (_prefix == value)
+                {
+                    return;
+                }
+                _prefix = value;
+                // Update bindings, no broadcast
+                RaisePropertyChanged(PrefixPropertyName);
             }
         } 
         #endregion
