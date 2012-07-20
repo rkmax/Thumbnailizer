@@ -117,15 +117,19 @@
 
                 <!--List Files to proccess / Lista de archivos para procesar-->
                 <Grid DockPanel.Dock="Top" Margin="10">
+                    
                     <!--Fondo Listview-->
                     <StackPanel VerticalAlignment="Center" Opacity="0.2">
                         <TextBlock
-                    Style="{DynamicResource IconPictures}"
-                    FontSize="70"
-                    Foreground="#FF41B1E1"/>
+                            Style="{DynamicResource IconPictures}"
+                            FontSize="120"
+                            Foreground="#FF41B1E1"/>
                         <TextBlock
-                    Style="{DynamicResource DropTitle}"
-                    Text="suelte las imagenes aqui"/>
+                            Width="200"
+                            TextWrapping="Wrap"
+                            TextAlignment="Center"
+                            Style="{DynamicResource DropTitle}"
+                            Text="suelte las imagenes aqui"/>
                     </StackPanel>
 
                     <ListView
