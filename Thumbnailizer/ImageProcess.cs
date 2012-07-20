@@ -1,9 +1,10 @@
 ﻿
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Media.Imaging;
-using System;
 
 namespace Thumbnailizer
 {
@@ -37,6 +38,7 @@ namespace Thumbnailizer
 
             if (thumbHeight == 0 || thumbWidth == 0) return;
 
+            
             using (Image thumbnail = new Bitmap(thumbWidth, thumbHeight))
             {
                 Graphics graphic = Graphics.FromImage(thumbnail);
@@ -52,6 +54,11 @@ namespace Thumbnailizer
                 EncoderParameters encoderParameters;
                 encoderParameters = new EncoderParameters(1);
                 encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
+
+                // Cierra la imagen original para eliminarla
+                imageOriginal.Dispose();
+                if (File.Exists(thumbPath)) File.Delete(thumbPath);
+
                 thumbnail.Save(thumbPath, info[1], encoderParameters);
             }            
         }

@@ -49,7 +49,6 @@
                                 <TextBlock VerticalAlignment="Center">Px</TextBlock>
                             </StackPanel>
                         </StackPanel>
-
                         
                         <!--Nombre-->
                         <StackPanel Background="#40E8E8E8" Margin="0,0,0,20">
@@ -63,7 +62,7 @@
                         </StackPanel>
                         
                         <StackPanel Background="#40E8E8E8" Margin="0,0,0,20">
-                            <TextBlock 
+                            <TextBlock
                         Margin="5"
                         TextWrapping="Wrap">
                             Thumbnailizer creara un archivo 
