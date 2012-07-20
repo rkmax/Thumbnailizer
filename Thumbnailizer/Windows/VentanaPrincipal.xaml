@@ -91,7 +91,8 @@
                             </StackPanel>
                         </StackPanel>
                         
-                        <StackPanel Background="#40E8E8E8" Margin="0,0,0,20">
+                        <!--Mensaje explicatorio-->
+                        <StackPanel Background="#40E8E8E8" Margin="0,0,0,8">
                             <TextBlock
                                 Margin="5"
                                 TextWrapping="Wrap">
@@ -100,7 +101,7 @@
                                     <TextBlock Text="{Binding Path=Prefix, UpdateSourceTrigger=PropertyChanged}"/>[nombre de archivo]
                                 </TextBlock>
                                 por cada imagen y se guardara en el mismo
-                                directorio</TextBlock>                            
+                                directorio, si no se define el prefijo los archivos seran <TextBlock FontWeight="Bold">sobreescritos</TextBlock></TextBlock>                            
                         </StackPanel>
                     </StackPanel>
 
