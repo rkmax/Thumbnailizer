@@ -24,9 +24,11 @@ namespace Thumbnailizer.ViewModel
     /// </summary>
     public class ThumbnalizerViewModel : ViewModelBase
     {
-        //TODO: Verificar que los archivos son imagenes
+        #region Private fields
         private List<string> _imageExtension = new List<string>() { ".jpe", ".jpg", ".png", ".gif" };
-        private HashSet<string> _hash;
+        private HashSet<string> _hash; 
+        #endregion
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the ThumbnalizerViewModel class.
         /// </summary>
@@ -34,7 +36,7 @@ namespace Thumbnailizer.ViewModel
         {
 
             ArchivosSoltados = new ObservableCollection<ArchivoSoltadoModel>();
-            _hash = new HashSet<string>();            
+            _hash = new HashSet<string>();
 
             if (IsInDesignMode)
             {
@@ -63,13 +65,15 @@ namespace Thumbnailizer.ViewModel
 
             InicializarCommands();
 
-        }
+        } 
+        #endregion
 
         #region ViewModel Commands
 
         public RelayCommand<DragEventArgs> DropAnythingCommand { get; private set; }
         public RelayCommand SelectResultFolderCommand { get; private set; }
         public RelayCommand ThumbnailizerCommand { get; private set; }
+        public RelayCommand LimpiarListaCommand { get; private set; }
 
         #endregion
 
@@ -78,7 +82,6 @@ namespace Thumbnailizer.ViewModel
             DropAnythingCommand = new RelayCommand<DragEventArgs>((e) =>
             {
                 // Si no son archivos o carpetas no se hace nada
-                // TODO: actualizar este comportamiento lanzar un mensaje de advertencia al usuario
                 if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
 
                 var archivos = e.Data.GetData(DataFormats.FileDrop, true) as string[];
@@ -90,6 +93,12 @@ namespace Thumbnailizer.ViewModel
             });
 
             ThumbnailizerCommand = new RelayCommand(GenerateThumbnails);
+
+            LimpiarListaCommand = new RelayCommand(() =>
+            {
+                ArchivosSoltados.Clear();
+                _hash.Clear();
+            });
         }
 
         private void Process(string path)

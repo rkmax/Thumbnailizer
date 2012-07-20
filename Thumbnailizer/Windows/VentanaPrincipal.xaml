@@ -129,11 +129,11 @@
                     </StackPanel>
 
                     <ListView
-                Background="Transparent"
-                AllowDrop="True"
-                ItemsSource="{Binding Path=ArchivosSoltados}"
-                HorizontalAlignment="Stretch">
-
+                        Background="Transparent"
+                        AllowDrop="True"
+                        ItemsSource="{Binding Path=ArchivosSoltados}"
+                        HorizontalAlignment="Stretch">
+                        
                         <!--Habiitar el Drop-->
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Drop">
@@ -142,14 +142,15 @@
                         </i:Interaction.Triggers>
 
                         <!--Menu contextual / limpiar lista-->
-                        <!--TODO: crear menu contextual para eliminar la lista-->
-                        <!--<ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem
-                        Header="Limpiar lista"
-                        IsCheckable="True"/>
-                    </ContextMenu>
-                </ListView.ContextMenu>-->
+                        
+                        <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem
+                                Header="Limpiar lista"
+                                IsCheckable="True"
+                                Command="{Binding Path=LimpiarListaCommand}"/>
+                        </ContextMenu>
+                        </ListView.ContextMenu>
 
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
