@@ -171,13 +171,20 @@
                         <!--Items de la lista-->
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="16" Foreground="Black" Style="{DynamicResource IconPictures}"/>
-                                    <TextBlock Height="16" Text="{Binding Path=NombreArchivo}"/>
-                                    <TextBlock                                
-                                FontSize="16" Text="W"
-                                Visibility="{Binding Path=EstaProcesado, Converter={StaticResource Converter}}"
-                                Foreground="Green" Style="{DynamicResource Icon_}" />
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="16" Foreground="Black" Style="{DynamicResource IconPictures}"/>
+                                        <TextBlock Height="16" Text="{Binding Path=NombreArchivo}"/>
+                                        <TextBlock
+                                        FontSize="16" Text="W"
+                                        Visibility="{Binding Path=EstaProcesado, Converter={StaticResource Converter}}"
+                                        Foreground="Green" Style="{DynamicResource Icon_}" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        Margin="16,0,0,0"
+                                        Foreground="#FF929292"
+                                        FontStyle="Italic"
+                                        Text="{Binding Path=NombreDirectorio}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
