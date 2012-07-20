@@ -40,12 +40,34 @@
                             <TextBlock Style="{DynamicResource DropOptionTitle}">Dimensiones</TextBlock>
                             <Label>Alto</Label>
                             <StackPanel Orientation="Horizontal">
-                                <TextBox Width="80" Text="{Binding Path=Altura, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox                                    
+                                    Width="80" 
+                                    Text="{Binding Path=Altura, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox.ToolTip>
+                                        <TextBlock TextWrapping="Wrap" Width="200">
+                                            Define el <TextBlock FontWeight="Bold">Alto</TextBlock>
+                                            de los thumbnails, si no es definido o se define [0] 
+                                            entonces este valor se calcula basado en el
+                                            <TextBlock FontWeight="Bold">Ancho</TextBlock>
+                                        </TextBlock>
+                                    </TextBox.ToolTip>
+                                </TextBox>
                                 <TextBlock VerticalAlignment="Center">Px</TextBlock>
                             </StackPanel>
                             <Label>Ancho</Label>
                             <StackPanel Orientation="Horizontal">
-                                <TextBox Width="80" Text="{Binding Path=Ancho, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox
+                                    Width="80"
+                                    Text="{Binding Path=Ancho, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox.ToolTip>
+                                        <TextBlock TextWrapping="Wrap" Width="200">
+                                            Define el <TextBlock FontWeight="Bold">Ancho</TextBlock>
+                                            de los thumbnails, si no es definido o se define [0] 
+                                            entonces este valor se calcula basado en el
+                                            <TextBlock FontWeight="Bold">Alto</TextBlock>
+                                        </TextBlock>
+                                    </TextBox.ToolTip>
+                                </TextBox>
                                 <TextBlock VerticalAlignment="Center">Px</TextBlock>
                             </StackPanel>
                         </StackPanel>
@@ -57,38 +79,29 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBox
                                     Text="{Binding Path=Prefix, UpdateSourceTrigger=PropertyChanged}"
-                                    Width="120"/>
+                                    Width="120">
+                                    <TextBox.ToolTip>
+                                        <TextBlock TextWrapping="Wrap" Width="200">
+                                            Define el <TextBlock FontWeight="Bold">Prefijo</TextBlock>
+                                            de los thumbnails, si no es definido los archivos originales
+                                            se <TextBlock FontWeight="Bold">Sobreescriben</TextBlock>
+                                        </TextBlock>
+                                    </TextBox.ToolTip>
+                                </TextBox>
                             </StackPanel>
                         </StackPanel>
                         
                         <StackPanel Background="#40E8E8E8" Margin="0,0,0,20">
                             <TextBlock
-                        Margin="5"
-                        TextWrapping="Wrap">
-                            Thumbnailizer creara un archivo 
+                                Margin="5"
+                                TextWrapping="Wrap">
+                                Thumbnailizer creara un archivo 
                                 <TextBlock FontWeight="Bold">
                                     <TextBlock Text="{Binding Path=Prefix, UpdateSourceTrigger=PropertyChanged}"/>[nombre de archivo]
                                 </TextBlock>
-                            por cada imagen y se guardara en el mismo directorio</TextBlock>
+                                por cada imagen y se guardara en el mismo
+                                directorio</TextBlock>                            
                         </StackPanel>
-
-                        <!--Carpeta de destino-->
-                        <!--
-                <StackPanel Background="#40E8E8E8" Margin="0,0,0,20">
-                    <TextBlock Style="{DynamicResource DropOptionTitle}">Destino</TextBlock>
-                    <Label>Carpeta de destino</Label>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Width="140" IsReadOnly="True" IsEnabled="False"></TextBox>
-                        <Button Command="{Binding Path=SelectResultFolderCommand}">
-                            <TextBlock
-                                FontSize="14"
-                                Foreground="Black"                                
-                                Style="{DynamicResource IconPictures}"/>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>-->
-
-
                     </StackPanel>
 
                     <!--Boton que ejecuta el proceso-->
@@ -137,8 +150,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
-                        <!--Menu contextual / limpiar lista-->
-                        
+                        <!--Menu contextual / limpiar lista-->                        
                         <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem
@@ -148,6 +160,7 @@
                         </ContextMenu>
                         </ListView.ContextMenu>
 
+                        <!--Contenedor de los items-->
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Background="Transparent"></StackPanel>
