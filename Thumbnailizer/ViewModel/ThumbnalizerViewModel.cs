@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Thumbnailizer.Model;
-using System.Threading;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Controls;
 
 namespace Thumbnailizer.ViewModel
 {
@@ -96,7 +93,7 @@ namespace Thumbnailizer.ViewModel
         }
 
         private void Process(string path)
-        {            
+        {
             if (IsFolder(path))
             {
                 ProcessFolder(path);                
@@ -109,12 +106,25 @@ namespace Thumbnailizer.ViewModel
 
         private void ProcessFolder(string path)
         {
-            throw new System.NotImplementedException();
+            var listFiles = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
+            foreach (var item in listFiles)
+            {
+                ProcessFile(item);
+            }
+
+            var listDirectories = Directory.EnumerateDirectories(path,"*",SearchOption.AllDirectories);
+            foreach (var item in listDirectories)
+            {
+                ProcessFolder(item);
+            }
         }
 
         private void ProcessFile(string path)
         {
             if (_hash.Contains(path)) return;
+            var path_ext = Path.GetExtension(path).ToLower();
+
+            if (null == _imageExtension.Where(a => a == path_ext).SingleOrDefault()) return;
 
             var element = new ArchivoSoltadoModel
             {
@@ -149,6 +159,7 @@ namespace Thumbnailizer.ViewModel
 
             var path = Path.GetDirectoryName(item.Ruta);
             var name = Path.GetFileName(item.Ruta);
+
             if (UsarRuta)
             {
                 path = Path.Combine(path, RutaThumbnail);

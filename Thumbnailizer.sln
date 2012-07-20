@@ -6,11 +6,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thumbnailizer.Pruebas", "Thumbnailizer.Pruebas\Thumbnailizer.Pruebas.csproj", "{8863259F-0688-432D-BD4F-2C2F3588410B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40808940-304C-4272-9036-A7A1759556CB}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		Thumbnailizer.vsmdi = Thumbnailizer.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Thumbnailizer.Setup", "Thumbnailizer.Setup\Thumbnailizer.Setup.vdproj", "{3089769B-5A72-45D3-A5A6-62662235692A}"
 EndProject
