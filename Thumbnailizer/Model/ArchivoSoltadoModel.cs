@@ -8,9 +8,6 @@ namespace Thumbnailizer.Model
         private string _ruta;
         private string _nombreArchivo;
         private string _nombreDirectorio;
-        private ImageSource _thumbnail;
-        private int _width;
-        private int _height;
         private bool _estaProcesado;
 
         #endregion
@@ -52,31 +49,7 @@ namespace Thumbnailizer.Model
                 OnPropertyChanged("NombreDirectorio");
             }
 
-        }
-
-        public int Height
-        {
-            get { return _height; }
-
-            set
-            {
-                if (value == _height) return;
-                _height = value;
-                OnPropertyChanged("Height");
-            }
-        }
-
-        public int Width
-        {
-            get { return _width; }
-
-            set
-            {
-                if (value == _width) return;
-                _width = value;
-                OnPropertyChanged("Width");
-            }
-        }
+        }        
 
         public bool EstaProcesado
         {
@@ -90,19 +63,7 @@ namespace Thumbnailizer.Model
             }
 
         }
-
-        public ImageSource Thumbnail
-        {
-            get { return _thumbnail; }
-
-            set
-            {
-                if (value == _thumbnail) return;
-                _thumbnail = value;
-                OnPropertyChanged("Thumbnail");
-            }
-
-        } 
+        
         #endregion
 
     }
