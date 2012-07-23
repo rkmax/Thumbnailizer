@@ -8,7 +8,7 @@ Descarga  [Thumbnailizer 1.0.5 - setup.exe](https://github.com/rkmax/Thumbnailiz
 ##Releases
 
 ###[Thumbnailizer 1.0.5](https://github.com/rkmax/Thumbnailizer/blob/master/releases/Thumbnailizer.Setup.msi)
-- Verion 1.0.0
+- Version 1.0.0
 - Limpiar lista con click derecho
 - Reemplazo de `ThreadPool.QueueUserWorkItem` por `Task.Factory.StartNew`
 - Agregada sección "Acerca de.."
