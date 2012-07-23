@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Thumbnailizer")]
 [assembly: AssemblyDescription("Fast Thumbnailer Generator")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Julian Reyes")]
+[assembly: AssemblyCompany("Julian Reyes Escrigas")]
 [assembly: AssemblyProduct("Thumbnailizer")]
-[assembly: AssemblyCopyright("Copyright © Julian Reyes 2012")]
+[assembly: AssemblyCopyright("Copyright © Julian Reyes Escrigas 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,7 +51,7 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.0.2")]
-[assembly: AssemblyFileVersion("0.0.0.2")]
+[assembly: AssemblyVersion("1.0.0.2")]
+[assembly: AssemblyFileVersion("1.0.0.2")]
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Thumbnailizer.Pruebas")]

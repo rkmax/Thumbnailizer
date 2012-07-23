@@ -139,7 +139,7 @@
                             TextWrapping="Wrap"
                             TextAlignment="Center"
                             Style="{DynamicResource DropTitle}"
-                            Text="suelte las imagenes aqui o carpetas aqui"/>
+                            Text="suelte las imagenes y/o carpetas aqui"/>
                     </StackPanel>
 
                     <ListView
