@@ -1,9 +1,17 @@
 Thumbnailizer
 =============
 
-Generador rapido de thumbnails
+Herramienta para redimenzionar imagenes rapido y facil basta con arrastrar las imagenes a la lista, definir el ancho, alto y listo **Thumbnailizer it!**
+
+Descarga  [Thumbnailizer 1.0.5 - setup.exe](https://github.com/rkmax/Thumbnailizer/blob/master/releases/setup.exe)
 
 ##Releases
+
+###[Thumbnailizer 1.0.5](https://github.com/rkmax/Thumbnailizer/blob/master/releases/Thumbnailizer.Setup.msi)
+- Verion 1.0.0
+- Limpiar lista con click derecho
+- Reemplazo de `ThreadPool.QueueUserWorkItem` por `Task.Factory.StartNew`
+- Agregada sección "Acerca de.."
 
 ###Thumbnailizer 0.0.1
 - Drap 'n drop de archivos
