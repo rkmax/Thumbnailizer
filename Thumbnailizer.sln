@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thumbnailizer", "Thumbnailizer\Thumbnailizer.csproj", "{B9C233D9-4AD4-4FD9-88D9-23E041B7A0E3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40808940-304C-4272-9036-A7A1759556CB}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Thumbnailizer.vsmdi

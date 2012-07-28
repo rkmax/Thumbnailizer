@@ -39,9 +39,9 @@ namespace Thumbnailizer.ViewModel
         public ThumbnalizerViewModel()
         {
             _imageExtension = new List<string>() { ".jpe", ".jpg", ".png", ".gif" };
-            Prefix = "thumb_";
+            _prefix = "thumb_";
 
-            ArchivosSoltados = new ObservableCollection<ArchivoSoltadoModel>();
+            _archivosSoltados = new ObservableCollection<ArchivoSoltadoModel>();
             _hash = new HashSet<string>();
 
             DummyInfo();
@@ -259,6 +259,7 @@ namespace Thumbnailizer.ViewModel
         /// <summary>
         /// Gets the ArchivosSoltados property.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public ObservableCollection<ArchivoSoltadoModel> ArchivosSoltados
         {
             get
