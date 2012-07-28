@@ -29,6 +29,7 @@ namespace Thumbnailizer.ViewModel
         private HashSet<string> _hash;
         private List<string> _imageExtension;
         private int _conteo;
+
         #endregion Private fields
 
         #region Constructors
@@ -58,6 +59,9 @@ namespace Thumbnailizer.ViewModel
         public RelayCommand LimpiarListaCommand { get; private set; }
 
         public RelayCommand ThumbnailizerCommand { get; private set; }
+
+        public RelayCommand<ArchivoSoltadoModel> DeleteFromListCommand { get; private set; }
+
         #endregion ViewModel Commands
 
         #region ViewModel Private Methods
@@ -129,7 +133,6 @@ namespace Thumbnailizer.ViewModel
             _conteo = 0;
             foreach (var item in ArchivosSoltados)
             {
-                
                 if (!item.EstaProcesado)
                 {
                     _conteo++;
@@ -171,8 +174,15 @@ namespace Thumbnailizer.ViewModel
 
             LimpiarListaCommand = new RelayCommand(() =>
             {
-                ArchivosSoltados.Clear();
+                _archivosSoltados.Clear();
                 _hash.Clear();
+            });
+
+            DeleteFromListCommand = new RelayCommand<ArchivoSoltadoModel>(a =>
+            {
+                var item = _archivosSoltados.Where(b => a.Ruta == b.Ruta).SingleOrDefault();
+                _archivosSoltados.Remove(item);
+                _hash.Remove(item.Ruta);
             });
         }
 
@@ -243,6 +253,7 @@ namespace Thumbnailizer.ViewModel
                 ProcessFolder(item);
             }
         }
+
         #endregion ViewModel Private Methods
 
         #region ViewModel Properties
