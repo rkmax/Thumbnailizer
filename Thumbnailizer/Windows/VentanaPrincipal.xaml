@@ -130,7 +130,7 @@
                     <Controls:AppBarButton
                         Command="{Binding Path=LimpiarListaCompletadosCommand}"
                         MetroImageSource="{StaticResource appbar_check}">
-                            <TextBlock TextWrapping="Wrap" TextAlignment="Center">Limpiar completados</TextBlock>
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center">Limpiar completados</TextBlock>
                     </Controls:AppBarButton>
                 </StackPanel>
 
@@ -167,7 +167,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
-                        <!--Menu contextual / limpiar lista-->                        
+                        <!--Menu contextual / limpiar lista-->
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <MenuItem
@@ -231,9 +231,15 @@
                     Realizado por <TextBlock FontWeight="DemiBold">Julian Reyes Escrigas</TextBlock>.
                 </TextBlock>
                 <StackPanel Margin="10">
-                    <TextBlock>Email: julian.reyes.escrigas@gmail.com</TextBlock>
-                    <TextBlock>Twitter: @rkmax</TextBlock>
-                    <TextBlock>Github: rkmax</TextBlock>
+                    <TextBlock>Email: <Hyperlink NavigateUri="mailto:julian.reyes.escrigas@gmail.com"
+                                                 Command="{Binding Path=OpenInBrowserCommand}"
+                                                 CommandParameter="{Binding NavigateUri, RelativeSource={RelativeSource Self}}">julian.reyes.escrigas@gmail.com</Hyperlink></TextBlock>
+                    <TextBlock>Twitter: <Hyperlink NavigateUri="http://twitter.com/rokemaster"
+                                                   Command="{Binding Path=OpenInBrowserCommand}"
+                                                 CommandParameter="{Binding NavigateUri, RelativeSource={RelativeSource Self}}">@rokemaster</Hyperlink></TextBlock>
+                    <TextBlock>Github: <Hyperlink NavigateUri="http://github.com/rkmax"
+                                                  Command="{Binding Path=OpenInBrowserCommand}"
+                                                 CommandParameter="{Binding NavigateUri, RelativeSource={RelativeSource Self}}">rkmax</Hyperlink></TextBlock>
                 </StackPanel>
             </StackPanel>
         </TabItem>

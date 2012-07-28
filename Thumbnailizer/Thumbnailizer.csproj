@@ -32,7 +32,7 @@
     <PublisherName>Julian Reyes Escrigas</PublisherName>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -176,6 +176,7 @@
     <Resource Include="Resources\Entypo.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <None Include="README.md" />
     <None Include="Thumbnailizer.snk" />
     <None Include="Thumbnailizer_TemporaryKey.pfx" />
   </ItemGroup>

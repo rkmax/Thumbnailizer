@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,10 +27,9 @@ namespace Thumbnailizer.ViewModel
     {
         #region Private fields
 
+        private int _conteo;
         private HashSet<string> _hash;
         private List<string> _imageExtension;
-        private int _conteo;
-
         #endregion Private fields
 
         #region Constructors
@@ -54,16 +54,17 @@ namespace Thumbnailizer.ViewModel
 
         #region ViewModel Commands
 
+        public RelayCommand<ArchivoSoltadoModel> DeleteFromListCommand { get; private set; }
+
         public RelayCommand<DragEventArgs> DropAnythingCommand { get; private set; }
 
         public RelayCommand LimpiarListaCommand { get; private set; }
 
         public RelayCommand LimpiarListaCompletadosCommand { get; private set; }
 
+        public RelayCommand<System.Uri> OpenInBrowserCommand { get; private set; }
+
         public RelayCommand ThumbnailizerCommand { get; private set; }
-
-        public RelayCommand<ArchivoSoltadoModel> DeleteFromListCommand { get; private set; }
-
         #endregion ViewModel Commands
 
         #region ViewModel Private Methods
@@ -167,6 +168,11 @@ namespace Thumbnailizer.ViewModel
                 {
                     Process(path);
                 }
+            });
+
+            OpenInBrowserCommand = new RelayCommand<System.Uri>(uri =>
+            {
+                System.Diagnostics.Process.Start(new ProcessStartInfo(uri.AbsoluteUri));
             });
 
             ThumbnailizerCommand = new RelayCommand(GenerateThumbnails, () =>

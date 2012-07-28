@@ -28,7 +28,7 @@ namespace Thumbnailizer
         /// <param name="thumbHeight">Alto del thumbnail</param>
         /// <param name="quality">Calidad</param>
         public static void GenerateThumbnail(
-            Image imageOriginal, string thumbPath, int thumbWidth = 0, int thumbHeight = 0, long quality = 100L)
+            Image imageOriginal, string thumbPath, int thumbWidth = 0, int thumbHeight = 0, long quality = 90L)
         {
             if (thumbHeight == 0 && thumbWidth == 0) return;
 
@@ -55,7 +55,7 @@ namespace Thumbnailizer
                 var info = GetCodec(imageOriginal);
 
                 EncoderParameters encoderParameters = new EncoderParameters(2);
-                encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
+                encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
                 encoderParameters.Param[1] = new EncoderParameter(Encoder.Compression, (long)EncoderValue.CompressionCCITT4);
 
                 // Cierra la imagen original y elimina la imagen de la ruta
