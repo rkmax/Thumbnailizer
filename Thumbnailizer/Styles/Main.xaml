@@ -15,7 +15,6 @@
     </Style>    
     <Style TargetType="ListView">
         <Setter Property="BorderBrush" Value="#FFE8E8E8"/>
-        <!--<Setter Property="Margin" Value="10"/>-->
     </Style>
 
     <Style TargetType="TextBlock" x:Key="DropTitle">

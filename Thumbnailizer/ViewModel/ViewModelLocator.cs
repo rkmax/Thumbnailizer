@@ -4,12 +4,12 @@
       <vm:ViewModelLocatorTemplate xmlns:vm="clr-namespace:Thumbnailizer.ViewModel"
                                    x:Key="Locator" />
   </Application.Resources>
-  
+
   In the View:
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
-  
+
   OR (WPF only):
-  
+
   xmlns:vm="clr-namespace:Thumbnailizer.ViewModel"
   DataContext="{Binding Source={x:Static vm:ViewModelLocatorTemplate.ViewModelNameStatic}}"
 */
@@ -54,17 +54,16 @@ namespace Thumbnailizer.ViewModel
     /// </code>
     /// </summary>
     public class ViewModelLocator
-    {        
-
+    {
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
         public ViewModelLocator()
         {
-            
         }
 
         #region ViewModel Ventana
+
         private static ThumbnalizerViewModel _ventanaViewModel;
 
         /// <summary>
@@ -115,8 +114,9 @@ namespace Thumbnailizer.ViewModel
             {
                 _ventanaViewModel = new ThumbnalizerViewModel();
             }
-        } 
-        #endregion
+        }
+
+        #endregion ViewModel Ventana
 
         /// <summary>
         /// Cleans up all the resources.

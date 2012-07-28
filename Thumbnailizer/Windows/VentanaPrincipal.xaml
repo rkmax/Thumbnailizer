@@ -35,7 +35,6 @@
                 <DockPanel DockPanel.Dock="Right" Width="200">
 
                     <StackPanel DockPanel.Dock="Top">
-
                         <!--Formulario de dimensiones-->
                         <StackPanel Background="#40E8E8E8" Margin="0,10,0,20">
                             <TextBlock Style="{DynamicResource DropOptionTitle}">Dimensiones</TextBlock>
