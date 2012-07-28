@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
@@ -11,8 +9,10 @@ namespace Thumbnailizer
     /// <summary>
     /// Clase auxiliar para el procesamiento de imagenes
     /// </summary>
-    class ImageProcess
+    internal class ImageProcess
     {
+        private static ImageCodecInfo[] _imageEncoder = ImageCodecInfo.GetImageEncoders();
+
         /// <summary>
         /// Crea un thumbnail a partir de una Image
         /// </summary>
@@ -28,7 +28,7 @@ namespace Thumbnailizer
 
             if (thumbWidth == 0)
             {
-                thumbWidth = (int) ((double)thumbHeight / (double)imageOriginal.Height * imageOriginal.Width);
+                thumbWidth = (int)((double)thumbHeight / (double)imageOriginal.Height * imageOriginal.Width);
             }
 
             if (thumbHeight == 0)
@@ -36,9 +36,6 @@ namespace Thumbnailizer
                 thumbHeight = (int)((double)thumbWidth / (double)imageOriginal.Width * imageOriginal.Height);
             }
 
-            if (thumbHeight == 0 || thumbWidth == 0) return;
-
-            
             using (Image thumbnail = new Bitmap(thumbWidth, thumbHeight))
             {
                 Graphics graphic = Graphics.FromImage(thumbnail);
@@ -49,18 +46,19 @@ namespace Thumbnailizer
                 graphic.CompositingQuality = CompositingQuality.HighQuality;
                 graphic.DrawImage(imageOriginal, 0, 0, thumbWidth, thumbHeight);
 
-                ImageCodecInfo[] info;
-                info = ImageCodecInfo.GetImageEncoders();
-                EncoderParameters encoderParameters;
-                encoderParameters = new EncoderParameters(1);
-                encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
+                var info = GetCodec(imageOriginal);                
+
+                EncoderParameters encoderParameters = new EncoderParameters(2);
+                encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
+                encoderParameters.Param[1] = new EncoderParameter(Encoder.Compression, (long)EncoderValue.CompressionCCITT4);
 
                 // Cierra la imagen original para eliminarla
+
                 imageOriginal.Dispose();
                 if (File.Exists(thumbPath)) File.Delete(thumbPath);
 
-                thumbnail.Save(thumbPath, info[1], encoderParameters);
-            }            
+                thumbnail.Save(thumbPath, info, encoderParameters);
+            }
         }
 
         public static BitmapImage LoadBitmapSourceFromStringPath(string path)
@@ -72,6 +70,20 @@ namespace Thumbnailizer
         {
             return Image.FromFile(path);
         }
-           
+
+        public static bool CallBack() { return false; }
+
+        public static ImageCodecInfo GetCodec(Image image)
+        {
+            ImageCodecInfo result = null;
+
+            foreach (var item in _imageEncoder)
+            {
+                if (item.FormatID == image.RawFormat.Guid)
+                    result = item;
+            }
+
+            return result;
+        }
     }
 }

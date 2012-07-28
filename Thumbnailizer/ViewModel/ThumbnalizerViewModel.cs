@@ -25,7 +25,7 @@ namespace Thumbnailizer.ViewModel
     public class ThumbnalizerViewModel : ViewModelBase
     {
         #region Private fields
-        private List<string> _imageExtension = new List<string>() { ".jpe", ".jpg", ".png", ".gif" };
+        private List<string> _imageExtension;
         private HashSet<string> _hash; 
         #endregion
         #region Constructors
@@ -34,6 +34,8 @@ namespace Thumbnailizer.ViewModel
         /// </summary>
         public ThumbnalizerViewModel()
         {
+            _imageExtension = new List<string>() { ".jpe", ".jpg", ".png", ".gif" };
+            Prefix = "thumb_";
 
             ArchivosSoltados = new ObservableCollection<ArchivoSoltadoModel>();
             _hash = new HashSet<string>();
@@ -213,8 +215,8 @@ namespace Thumbnailizer.ViewModel
                 ImageProcess.LoadImageFromStringPath(item.Ruta),
                 Path.Combine(path, name), Ancho, Altura);
 
-            var archivo = ArchivosSoltados.Where(a => a.Ruta == item.Ruta).SingleOrDefault();
-            archivo.EstaProcesado = true;
+            /*var archivo = ArchivosSoltados.Where(a => a.Ruta == item.Ruta).SingleOrDefault();
+            archivo.EstaProcesado = true;*/
         }
 
         /// <summary>
@@ -396,7 +398,7 @@ namespace Thumbnailizer.ViewModel
         /// </summary>
         public const string PrefixPropertyName = "Prefix";
 
-        private string _prefix = "thumb_";
+        private string _prefix;
 
         /// <summary>
         /// Gets the Prefix property.        

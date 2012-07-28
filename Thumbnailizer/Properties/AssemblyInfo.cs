@@ -13,7 +13,7 @@ using System.Windows;
 [assembly: AssemblyCompany("Julian Reyes Escrigas")]
 [assembly: AssemblyProduct("Thumbnailizer")]
 [assembly: AssemblyCopyright("Copyright © Julian Reyes Escrigas 2012")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Rkmax")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -53,5 +53,3 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.2")]
 [assembly: AssemblyFileVersion("1.0.0.2")]
-
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Thumbnailizer.Pruebas")]
