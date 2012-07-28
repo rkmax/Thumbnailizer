@@ -25,10 +25,14 @@ namespace Thumbnailizer.ViewModel
     public class ThumbnalizerViewModel : ViewModelBase
     {
         #region Private fields
+
+        private HashSet<string> _hash;
         private List<string> _imageExtension;
-        private HashSet<string> _hash; 
-        #endregion
+        private int _conteo;
+        #endregion Private fields
+
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the ThumbnalizerViewModel class.
         /// </summary>
@@ -43,19 +47,21 @@ namespace Thumbnailizer.ViewModel
             DummyInfo();
 
             InicializarCommands();
-
         }
-        #endregion
+
+        #endregion Constructors
 
         #region ViewModel Commands
 
-        public RelayCommand<DragEventArgs> DropAnythingCommand { get; private set; }        
-        public RelayCommand ThumbnailizerCommand { get; private set; }
+        public RelayCommand<DragEventArgs> DropAnythingCommand { get; private set; }
+
         public RelayCommand LimpiarListaCommand { get; private set; }
 
-        #endregion
+        public RelayCommand ThumbnailizerCommand { get; private set; }
+        #endregion ViewModel Commands
 
         #region ViewModel Private Methods
+
         /// <summary>
         /// Llena informacion falsa, util en tiempo de diseño
         /// </summary>
@@ -63,7 +69,7 @@ namespace Thumbnailizer.ViewModel
         {
             if (IsInDesignMode)
             {
-                List<string> tempList = new List<string> 
+                List<string> tempList = new List<string>
                 {
                     @"F:\fotos visiometros\juno\DSC02532.JPG",
                     @"F:\fotos visiometros\juno\DSC02533.JPG",
@@ -84,109 +90,6 @@ namespace Thumbnailizer.ViewModel
                     }
                     ArchivosSoltados.Add(element);
                 });
-            }
-        }
-
-        /// <summary>
-        /// Inicializa los comandos para utilizarlos en el XAML
-        /// </summary>
-        private void InicializarCommands()
-        {
-            DropAnythingCommand = new RelayCommand<DragEventArgs>((e) =>
-            {
-                // Si no son archivos o carpetas no se hace nada
-                if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
-
-                var archivos = e.Data.GetData(DataFormats.FileDrop, true) as string[];
-
-                foreach (var path in archivos)
-                {
-                    Process(path);
-                }
-            });
-
-            ThumbnailizerCommand = new RelayCommand(GenerateThumbnails);
-
-            LimpiarListaCommand = new RelayCommand(() =>
-            {
-                ArchivosSoltados.Clear();
-                _hash.Clear();
-            });
-        }
-
-        /// <summary>
-        /// Discrimina archivos y carpetas
-        /// </summary>
-        /// <param name="path">ruta a discriminar</param>
-        private void Process(string path)
-        {
-            if (IsFolder(path))
-            {
-                ProcessFolder(path);
-            }
-            else
-            {
-                ProcessFile(path);
-            }
-        }
-
-        /// <summary>
-        /// Lee todas las entradas de la carpeta y los procesa
-        /// </summary>
-        /// <param name="path">ruta de la carpeta</param>
-        private void ProcessFolder(string path)
-        {
-            var listFiles = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
-            foreach (var item in listFiles)
-            {
-                ProcessFile(item);
-            }
-
-            var listDirectories = Directory.EnumerateDirectories(path, "*", SearchOption.AllDirectories);
-            foreach (var item in listDirectories)
-            {
-                ProcessFolder(item);
-            }
-        }
-
-        /// <summary>
-        /// Toma la informacion de la ruta y lo prepara para procesar
-        /// </summary>
-        /// <param name="path"></param>
-        private void ProcessFile(string path)
-        {
-            if (_hash.Contains(path)) return;
-            var path_ext = Path.GetExtension(path).ToLower();
-
-            if (null == _imageExtension.Where(a => a == path_ext).SingleOrDefault()) return;
-
-            var element = new ArchivoSoltadoModel
-            {
-                Ruta = path,
-                NombreArchivo = Path.GetFileName(path),
-                NombreDirectorio = Path.GetDirectoryName(path),
-                EstaProcesado = false
-            };
-            _hash.Add(path);
-            ArchivosSoltados.Add(element);
-        }
-
-        /// <summary>
-        /// Procesa todas las imagenes listas para procesar
-        /// </summary>
-        private void GenerateThumbnails()
-        {
-            if (Altura == 0 && Ancho == 0) return;
-            foreach (var item in ArchivosSoltados)
-            {
-                if (!item.EstaProcesado)
-                {
-                    // Option 2: Modo nuevo - sin entender                    
-                    var tsk = Task.Factory.StartNew(GenerateThumbnail, item).ContinueWith(t =>
-                    {
-                        if (t.IsCompleted) item.EstaProcesado = true;
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
-                }
             }
         }
 
@@ -214,9 +117,63 @@ namespace Thumbnailizer.ViewModel
             ImageProcess.GenerateThumbnail(
                 ImageProcess.LoadImageFromStringPath(item.Ruta),
                 Path.Combine(path, name), Ancho, Altura);
+        }
 
-            /*var archivo = ArchivosSoltados.Where(a => a.Ruta == item.Ruta).SingleOrDefault();
-            archivo.EstaProcesado = true;*/
+        /// <summary>
+        /// Procesa todas las imagenes listas para procesar
+        /// </summary>
+        private void GenerateThumbnails()
+        {
+            if (Altura == 0 && Ancho == 0) return;
+
+            _conteo = 0;
+            foreach (var item in ArchivosSoltados)
+            {
+                
+                if (!item.EstaProcesado)
+                {
+                    _conteo++;
+
+                    var tsk = Task.Factory.StartNew(GenerateThumbnail, item).ContinueWith(t =>
+                    {
+                        if (t.IsCompleted)
+                        {
+                            item.EstaProcesado = true;
+                            _conteo--;
+                        }
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Inicializa los comandos para utilizarlos en el XAML
+        /// </summary>
+        private void InicializarCommands()
+        {
+            DropAnythingCommand = new RelayCommand<DragEventArgs>((e) =>
+            {
+                // Si no son archivos o carpetas no se hace nada
+                if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+
+                var archivos = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+
+                foreach (var path in archivos)
+                {
+                    Process(path);
+                }
+            });
+
+            ThumbnailizerCommand = new RelayCommand(GenerateThumbnails, () =>
+            {
+                return _conteo == 0;
+            });
+
+            LimpiarListaCommand = new RelayCommand(() =>
+            {
+                ArchivosSoltados.Clear();
+                _hash.Clear();
+            });
         }
 
         /// <summary>
@@ -228,12 +185,70 @@ namespace Thumbnailizer.ViewModel
         {
             FileAttributes attrs = File.GetAttributes(path);
             return FileAttributes.Directory == (attrs & FileAttributes.Directory);
-        } 
-        #endregion
+        }
+
+        /// <summary>
+        /// Discrimina archivos y carpetas
+        /// </summary>
+        /// <param name="path">ruta a discriminar</param>
+        private void Process(string path)
+        {
+            if (IsFolder(path))
+            {
+                ProcessFolder(path);
+            }
+            else
+            {
+                ProcessFile(path);
+            }
+        }
+
+        /// <summary>
+        /// Toma la informacion de la ruta y lo prepara para procesar
+        /// </summary>
+        /// <param name="path"></param>
+        private void ProcessFile(string path)
+        {
+            if (_hash.Contains(path)) return;
+            var path_ext = Path.GetExtension(path).ToLower();
+
+            if (null == _imageExtension.Where(a => a == path_ext).SingleOrDefault()) return;
+
+            var element = new ArchivoSoltadoModel
+            {
+                Ruta = path,
+                NombreArchivo = Path.GetFileName(path),
+                NombreDirectorio = Path.GetDirectoryName(path),
+                EstaProcesado = false
+            };
+            _hash.Add(path);
+            ArchivosSoltados.Add(element);
+        }
+
+        /// <summary>
+        /// Lee todas las entradas de la carpeta y los procesa
+        /// </summary>
+        /// <param name="path">ruta de la carpeta</param>
+        private void ProcessFolder(string path)
+        {
+            var listFiles = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
+            foreach (var item in listFiles)
+            {
+                ProcessFile(item);
+            }
+
+            var listDirectories = Directory.EnumerateDirectories(path, "*", SearchOption.AllDirectories);
+            foreach (var item in listDirectories)
+            {
+                ProcessFolder(item);
+            }
+        }
+        #endregion ViewModel Private Methods
 
         #region ViewModel Properties
 
         #region ViewModel ArchivosSoltados
+
         /// <summary>
         /// The <see cref="ArchivosSoltados" /> property's name.
         /// </summary>
@@ -242,7 +257,7 @@ namespace Thumbnailizer.ViewModel
         private ObservableCollection<ArchivoSoltadoModel> _archivosSoltados;
 
         /// <summary>
-        /// Gets the ArchivosSoltados property.        
+        /// Gets the ArchivosSoltados property.
         /// </summary>
         public ObservableCollection<ArchivoSoltadoModel> ArchivosSoltados
         {
@@ -261,10 +276,12 @@ namespace Thumbnailizer.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(ArchivosSoltadosPropertyName);
             }
-        }  
-        #endregion
+        }
+
+        #endregion ViewModel ArchivosSoltados
 
         #region ViewModel RutaThumbail
+
         /// <summary>
         /// The <see cref="RutaThumbnail" /> property's name.
         /// </summary>
@@ -273,7 +290,7 @@ namespace Thumbnailizer.ViewModel
         private string _rutaThumbnail;
 
         /// <summary>
-        /// Gets the RutaThumbnail property.        
+        /// Gets the RutaThumbnail property.
         /// </summary>
         public string RutaThumbnail
         {
@@ -293,10 +310,12 @@ namespace Thumbnailizer.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(RutaThumbnailPropertyName);
             }
-        } 
-        #endregion
+        }
+
+        #endregion ViewModel RutaThumbail
 
         #region ViewModel UsarRuta
+
         /// <summary>
         /// The <see cref="UsarRuta" /> property's name.
         /// </summary>
@@ -305,7 +324,7 @@ namespace Thumbnailizer.ViewModel
         private bool _usarRuta;
 
         /// <summary>
-        /// Gets the UsarRuta property.        
+        /// Gets the UsarRuta property.
         /// </summary>
         public bool UsarRuta
         {
@@ -325,10 +344,12 @@ namespace Thumbnailizer.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(UsarRutaPropertyName);
             }
-        } 
-        #endregion
+        }
+
+        #endregion ViewModel UsarRuta
 
         #region ViewModel Altura
+
         /// <summary>
         /// The <see cref="Altura" /> property's name.
         /// </summary>
@@ -337,7 +358,7 @@ namespace Thumbnailizer.ViewModel
         private int _altura;
 
         /// <summary>
-        /// Gets the Altura property.        
+        /// Gets the Altura property.
         /// </summary>
         public int Altura
         {
@@ -357,10 +378,12 @@ namespace Thumbnailizer.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(AlturaPropertyName);
             }
-        } 
-        #endregion
+        }
+
+        #endregion ViewModel Altura
 
         #region ViewModel Ancho
+
         /// <summary>
         /// The <see cref="Ancho" /> property's name.
         /// </summary>
@@ -369,7 +392,7 @@ namespace Thumbnailizer.ViewModel
         private int _ancho;
 
         /// <summary>
-        /// Gets the Ancho property.        
+        /// Gets the Ancho property.
         /// </summary>
         public int Ancho
         {
@@ -389,10 +412,12 @@ namespace Thumbnailizer.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(AnchoPropertyName);
             }
-        } 
-        #endregion
+        }
+
+        #endregion ViewModel Ancho
 
         #region ViewModel Prefix
+
         /// <summary>
         /// The <see cref="Prefix" /> property's name.
         /// </summary>
@@ -401,7 +426,7 @@ namespace Thumbnailizer.ViewModel
         private string _prefix;
 
         /// <summary>
-        /// Gets the Prefix property.        
+        /// Gets the Prefix property.
         /// </summary>
         public string Prefix
         {
@@ -420,11 +445,10 @@ namespace Thumbnailizer.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(PrefixPropertyName);
             }
-        } 
-        #endregion
+        }
 
-        #endregion
+        #endregion ViewModel Prefix
 
-
+        #endregion ViewModel Properties
     }
 }
