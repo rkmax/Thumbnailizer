@@ -14,6 +14,12 @@ namespace Thumbnailizer
         private static ImageCodecInfo[] _imageEncoder = ImageCodecInfo.GetImageEncoders();
 
         /// <summary>
+        /// Callback cuando falla la creacion de la imagen
+        /// </summary>
+        /// <returns>siempre falso</returns>
+        public static bool CallBack() { return false; }
+
+        /// <summary>
         /// Crea un thumbnail a partir de una Image
         /// </summary>
         /// <param name="imageOriginal">Image a convertir</param>
@@ -46,14 +52,13 @@ namespace Thumbnailizer
                 graphic.CompositingQuality = CompositingQuality.HighQuality;
                 graphic.DrawImage(imageOriginal, 0, 0, thumbWidth, thumbHeight);
 
-                var info = GetCodec(imageOriginal);                
+                var info = GetCodec(imageOriginal);
 
                 EncoderParameters encoderParameters = new EncoderParameters(2);
                 encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
                 encoderParameters.Param[1] = new EncoderParameter(Encoder.Compression, (long)EncoderValue.CompressionCCITT4);
 
-                // Cierra la imagen original para eliminarla
-
+                // Cierra la imagen original y elimina la imagen de la ruta
                 imageOriginal.Dispose();
                 if (File.Exists(thumbPath)) File.Delete(thumbPath);
 
@@ -61,18 +66,11 @@ namespace Thumbnailizer
             }
         }
 
-        public static BitmapImage LoadBitmapSourceFromStringPath(string path)
-        {
-            return new BitmapImage(new System.Uri(path));
-        }
-
-        public static Image LoadImageFromStringPath(string path)
-        {
-            return Image.FromFile(path);
-        }
-
-        public static bool CallBack() { return false; }
-
+        /// <summary>
+        /// Obtiene el ImageCodecInfo de la imagen pasada
+        /// </summary>
+        /// <param name="image">imagen</param>
+        /// <returns>Informacion del codec</returns>
         public static ImageCodecInfo GetCodec(Image image)
         {
             ImageCodecInfo result = null;
@@ -84,6 +82,26 @@ namespace Thumbnailizer
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Carga una imagen desde la ruta deseada
+        /// </summary>
+        /// <param name="path">ruta deseada</param>
+        /// <returns>regresa la imagen como BitmapImage</returns>
+        public static BitmapImage LoadBitmapSourceFromStringPath(string path)
+        {
+            return new BitmapImage(new System.Uri(path));
+        }
+
+        /// <summary>
+        /// Carga una imagen desde la ruta deseada
+        /// </summary>
+        /// <param name="path">ruta deseada</param>
+        /// <returns>regresa la imagen como System.Drawing.Image</returns>
+        public static Image LoadImageFromStringPath(string path)
+        {
+            return Image.FromFile(path);
         }
     }
 }
