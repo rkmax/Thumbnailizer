@@ -13,4 +13,12 @@
     <Style x:Key="IconPictures" TargetType="TextBlock" BasedOn="{StaticResource Icon_ }">
         <Setter Property="Text" Value="p"/>
     </Style>
+
+    <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" x:Key="appbar_delete">
+        <Path Width="17.5" Height="22.5" Canvas.Left="15.25" Canvas.Top="12.5" Stretch="Fill" Fill="Black" Data="F1 M 16,15L 32,15C 32.5523,15 32.75,17.25 32.75,17.25L 15.25,17.25C 15.25,17.25 15.4477,15 16,15 Z M 22.5,12.5L 25.5,12.5C 25.7761,12.5 26.5,13.2239 26.5,13.5C 26.5,13.7762 25.7761,14.5 25.5,14.5L 22.5,14.5C 22.2238,14.5 21.5,13.7762 21.5,13.5C 21.5,13.2239 22.2238,12.5 22.5,12.5 Z M 17.5,18L 30.5,18C 31.0523,18 31.5,18.4477 31.5,19L 30.5,34C 30.5,34.5523 30.0523,35 29.5,35L 18.5,35C 17.9477,35 17.5,34.5523 17.5,34L 16.5,19C 16.5,18.4477 16.9477,18 17.5,18 Z M 19,20L 19.25,33L 21,33L 20.75,20L 19,20 Z M 23,20L 23,33L 25,33L 25,20L 23,20 Z M 27.25,20L 27,33L 28.75,33L 29,20L 27.25,20 Z " />
+    </Canvas>
+
+    <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" UseLayoutRounding="False" x:Key="appbar_check">
+        <Path Width="23.9999" Height="19.9999" Canvas.Left="12.0001" Canvas.Top="14.0001" Stretch="Fill" Fill="Black" Data="F1 M 15,21L 22,28L 32.9999,14.0001L 35.9999,17.0001L 22,34L 12.0001,24L 15,21 Z " />
+    </Canvas>
 </ResourceDictionary>

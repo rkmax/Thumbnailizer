@@ -58,6 +58,8 @@ namespace Thumbnailizer.ViewModel
 
         public RelayCommand LimpiarListaCommand { get; private set; }
 
+        public RelayCommand LimpiarListaCompletadosCommand { get; private set; }
+
         public RelayCommand ThumbnailizerCommand { get; private set; }
 
         public RelayCommand<ArchivoSoltadoModel> DeleteFromListCommand { get; private set; }
@@ -176,6 +178,24 @@ namespace Thumbnailizer.ViewModel
             {
                 _archivosSoltados.Clear();
                 _hash.Clear();
+            });
+
+            LimpiarListaCompletadosCommand = new RelayCommand(() =>
+            {
+                var no_eliminar = new ObservableCollection<ArchivoSoltadoModel>();
+                foreach (var item in _archivosSoltados)
+                {
+                    if (item.EstaProcesado)
+                    {
+                        _hash.Remove(item.Ruta);
+                    }
+                    else
+                    {
+                        no_eliminar.Add(item);
+                    }
+                }
+
+                ArchivosSoltados = no_eliminar;
             });
 
             DeleteFromListCommand = new RelayCommand<ArchivoSoltadoModel>(a =>

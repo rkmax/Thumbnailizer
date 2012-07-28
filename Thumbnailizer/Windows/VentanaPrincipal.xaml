@@ -120,6 +120,19 @@
                         </StackPanel>
                     </Button>
                 </DockPanel>
+                <!--appbar_check-->
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Controls:AppBarButton
+                        Command="{Binding Path=LimpiarListaCommand}"
+                        MetroImageSource="{StaticResource appbar_delete}">
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center">Limpiar toda la lista</TextBlock>
+                    </Controls:AppBarButton>
+                    <Controls:AppBarButton
+                        Command="{Binding Path=LimpiarListaCompletadosCommand}"
+                        MetroImageSource="{StaticResource appbar_check}">
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center">Limpiar completados</TextBlock>
+                    </Controls:AppBarButton>
+                </StackPanel>
 
                 <!--List Files to proccess / Lista de archivos para procesar-->
                 <Grid DockPanel.Dock="Top" Margin="10">
@@ -154,13 +167,17 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
-                        <!--Menu contextual / limpiar lista-->
+                        <!--Menu contextual / limpiar lista-->                        
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <MenuItem
-                                Header="Limpiar lista"
+                                Header="Limpiar toda la lista"
                                 IsCheckable="True"
                                 Command="{Binding Path=LimpiarListaCommand}"/>
+                                <MenuItem
+                                Header="Limpiar completados"
+                                IsCheckable="True"
+                                Command="{Binding Path=LimpiarListaCompletadosCommand}"/>
                             </ContextMenu>
                         </ListView.ContextMenu>
 
