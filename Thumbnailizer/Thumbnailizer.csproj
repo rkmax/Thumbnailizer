@@ -27,7 +27,7 @@
     <UpdatePeriodically>true</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://github.com/rkmax/Thumbnailizer/blob/master/Thumbnailizer/publish/</InstallUrl>
+    <InstallUrl>https://github.com/rkmax/Thumbnailizer/raw/master/Thumbnailizer/publish/</InstallUrl>
     <ProductName>Thumbnailizer</ProductName>
     <PublisherName>Julian Reyes Escrigas</PublisherName>
     <WebPage>publish.htm</WebPage>
